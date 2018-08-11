@@ -44,4 +44,8 @@ public class LogIn extends AppCompatActivity {
         intent.putExtra(MainActivity.EXTRA_MESSAGE, name);
         startActivity(intent);
     }
+    public void onSignup(View view) {                                ///Logiini button
+        Intent intent = new Intent(this, SignUp.class);
+        startActivity(intent);
+    }
 }
