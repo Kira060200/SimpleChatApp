@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
@@ -23,6 +24,8 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         Intent intent = getIntent();
         username = intent.getStringExtra(EXTRA_MESSAGE);
+        TextView myTextView = (TextView)findViewById(R.id.displaymessage);
+        myTextView.setMovementMethod(new ScrollingMovementMethod());
         new ConnectServer().execute();
     }
     public void onSendMessage(View view) {      ///Send button
@@ -38,7 +41,7 @@ public class MainActivity extends AppCompatActivity {
         @Override
         protected Void doInBackground(Void... voids) {
             try {
-                sock=new Socket("10.0.2.2", 5000);
+                sock=new Socket("192.168.0.50", 5000);
                 InputStreamReader streamReader = new InputStreamReader(sock.getInputStream());
                 reader = new BufferedReader(streamReader);
                 writer = new PrintWriter(sock.getOutputStream());
