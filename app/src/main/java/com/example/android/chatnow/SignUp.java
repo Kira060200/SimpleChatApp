@@ -3,10 +3,17 @@ package com.example.android.chatnow;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import java.io.IOException;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 public class SignUp extends AppCompatActivity {
 
     @Override
@@ -20,6 +27,30 @@ public class SignUp extends AppCompatActivity {
         if(!email.contains("@"))
             return 0;
         return 1;
+    }
+    public class setUpSQL implements Runnable{
+        public void run () {
+        EditText emailView = (EditText) findViewById(R.id.email);
+        String email = emailView.getText().toString();
+        EditText userView = (EditText) findViewById(R.id.username);
+        String username = userView.getText().toString();
+        EditText pass1View = (EditText) findViewById(R.id.password);
+        String password = pass1View.getText().toString();
+        try {
+            Class.forName("com.mysql.jdbc.Driver");
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+            Log.d("ClassTag", "Failed1");
+        }
+        try {
+            Connection con = DriverManager.getConnection("jdbc:mysql://192.168.0.50:3306/chatusers","newuser","1234");
+            Statement stmt = con.createStatement();
+            stmt.executeUpdate("insert into user(email,username,password) values ('" + email + "' ,'" + username + "' , '" + password + "' );");
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+            Log.d("SQLTag", "Failed to execute");
+        }
+    }
     }
     public int PasswordCheck() {
         EditText pass1View = (EditText)findViewById(R.id.password);
@@ -44,10 +75,12 @@ public class SignUp extends AppCompatActivity {
             ok = false;
         }
         if(ok) {
-            EditText nameView = (EditText) findViewById(R.id.username);
-            String name = nameView.getText().toString();
+            Thread sqlThread = new Thread(new setUpSQL());
+            sqlThread.start();
+            EditText userView = (EditText)findViewById(R.id.username);
+            String username =userView.getText().toString();
             Intent intent = new Intent(this, MainActivity.class);
-            intent.putExtra(MainActivity.EXTRA_MESSAGE, name);
+            intent.putExtra(MainActivity.EXTRA_MESSAGE, username);
             startActivity(intent);
         }
     }
