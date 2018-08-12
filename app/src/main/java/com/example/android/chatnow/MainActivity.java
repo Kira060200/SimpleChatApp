@@ -41,7 +41,7 @@ public class MainActivity extends AppCompatActivity {
         @Override
         protected Void doInBackground(Void... voids) {
             try {
-                sock=new Socket("192.168.0.50", 5000);
+                sock=new Socket("xxxxxxxxx", 5000);
                 InputStreamReader streamReader = new InputStreamReader(sock.getInputStream());
                 reader = new BufferedReader(streamReader);
                 writer = new PrintWriter(sock.getOutputStream());
