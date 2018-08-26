@@ -59,7 +59,7 @@ public class LogIn extends AppCompatActivity {
                 Log.d("ClassTag", "Failed1");
             }
             try {
-                Connection con = DriverManager.getConnection("jdbc:mysql://192.168.0.50:3306/chatusers","newuser","1234");
+                Connection con = DriverManager.getConnection("jdbc:mysql://192.168.xxx:xxxx/chatusers","xxx","xxxx");
                 Statement stmt = con.createStatement();
                 ResultSet rs = stmt.executeQuery("select* from user");
                 while (rs.next()&&ok==false) {
