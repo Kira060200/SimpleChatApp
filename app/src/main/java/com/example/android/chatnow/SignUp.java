@@ -79,8 +79,8 @@ public class SignUp extends AppCompatActivity {
             sqlThread.start();
             EditText userView = (EditText)findViewById(R.id.username);
             String username =userView.getText().toString();
-            Intent intent = new Intent(this, MainActivity.class);
-            intent.putExtra(MainActivity.EXTRA_MESSAGE, username);
+            Intent intent = new Intent(this, Menu.class);
+            intent.putExtra(Menu.EXTRA_MESSAGE, username);
             startActivity(intent);
         }
     }

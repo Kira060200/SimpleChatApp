@@ -17,13 +17,18 @@ public class MainActivity extends AppCompatActivity {
     String messageText;
     boolean mes=false;
     String username;
+    int channel;
     public static final String EXTRA_MESSAGE = "message";
+    public static final String CHANNEL = "-1";
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         Intent intent = getIntent();
-        username = intent.getStringExtra(EXTRA_MESSAGE);
+        Bundle extras = intent.getExtras();
+        username = extras.getString("EXTRA_USERNAME");
+        channel = extras.getInt("EXTRA_CHANNEL");
+        Log.d("Channel", String.valueOf(channel));
         TextView myTextView = (TextView)findViewById(R.id.displaymessage);
         myTextView.setMovementMethod(new ScrollingMovementMethod());
         new ConnectServer().execute();
@@ -37,12 +42,22 @@ public class MainActivity extends AppCompatActivity {
         messageView1.setText("");
     }
     private class ConnectServer extends AsyncTask<Void, Void, Void> {       ///Background task that connects to the server
-        private Socket sock;
+        private Socket sock,sock2;
         @Override
         protected Void doInBackground(Void... voids) {
             try {
                 sock=new Socket("192.168.0.50", 5000);
+                sock2=new Socket("192.168.0.50", 5001);
                 InputStreamReader streamReader = new InputStreamReader(sock.getInputStream());
+                Log.d("Channel", String.valueOf(channel));
+                //
+                int ch=0;
+                ch=channel;
+                DataOutputStream isWriter = new DataOutputStream(sock2.getOutputStream());
+                isWriter.writeInt(ch);
+                isWriter.close();
+                //Log.d("CH", String.valueOf(ch));
+                //
                 reader = new BufferedReader(streamReader);
                 writer = new PrintWriter(sock.getOutputStream());
                 Log.d("InternetTag", "Net established");
