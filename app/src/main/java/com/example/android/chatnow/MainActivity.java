@@ -46,8 +46,8 @@ public class MainActivity extends AppCompatActivity {
         @Override
         protected Void doInBackground(Void... voids) {
             try {
-                sock=new Socket("192.168.0.50", 5000);
-                sock2=new Socket("192.168.0.50", 5001);
+                sock=new Socket("192.168.xx", xxxx);
+                sock2=new Socket("192.168xx", xxxx);
                 InputStreamReader streamReader = new InputStreamReader(sock.getInputStream());
                 Log.d("Channel", String.valueOf(channel));
                 //
